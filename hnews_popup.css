@@ -1,0 +1,73 @@
+
+/* */
+div.hnews-popup-container {
+    position: relative;
+    display: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+/* this is the actual popup box */
+div.hnews-popup {
+	display: block;
+	border: 1px solid #CCCCCC;
+    box-shadow: 2px 2px 5px #888;
+    -moz-box-shadow: 2px 2px 5px #888;
+    -webkit-box-shadow: 2px 2px 5px #888;
+
+    font-size: 12px;
+
+	position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 30em;
+	background-color: white;
+	padding: 0px;
+	margin: 0px;
+	overflow: hidden;
+    font-family: times,serif;
+    color: black;
+
+    /* attempt to reset styles that might be in force */
+    text-transform: none;
+    letter-spacing: none;
+    vertical-align: baseline;
+    font-weight: normal;
+    font-style: normal;
+}
+
+.hnews-popup h3.hnews-popup-heading {
+    display: block;
+    color: #FFFFFF;
+    margin: 0px;
+/*    height: 20px; */
+    font-size: 16px;
+    font-weight: bold;
+/*    line-height: 20px; */
+    padding: 3px;
+
+    background: #025ebd url(hnews_popup_bg.gif) repeat-y left top;
+
+
+}
+
+
+.hnews-popup .hnews-popup-name {
+    vertical-align: top;
+    padding: 0.2em;
+    font-weight: bold;
+}
+
+.hnews-popup .hnews-popup-value {
+    vertical-align: top;
+    padding: 0.2em;
+}
+
+.hnews-popup .hnews-popup-name img ,
+.hnews-popup .hnews-popup-value img {
+    border: none;
+}
+
+.hnews-popup tr:nth-child(even) {background: #ddf}
+.hnews-popup tr:nth-child(odd) {background: #fff}
+

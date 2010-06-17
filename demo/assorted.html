@@ -1,0 +1,53 @@
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="../hnews_popup.css" />
+<script type="text/javascript" src="../jquery-1.4.2.js" ></script>
+<script type="text/javascript" src="../hnews_popup.js" ></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.hnews-badge').each( function() {
+            var link = $(this).next('a');
+            $(this).hnews_popup( { url: link.attr('href') } );
+        } );
+});
+</script>
+
+</head>
+<body>
+
+<h1>hNews examples in the wild...</h1>
+
+<p>
+Here are some articles which are marked up with hNews. The hNews popup thingy (<img src="../hnews_icon.png" alt="hnews"/>) is really designed to be embedded into the article page itself, but it also works fine on articles on other pages.
+</p>
+<p>
+Hover over the <img src="../hnews_icon.png" alt="hnews"/> button to see the information in each article
+</p>
+<ul>
+<li>
+From the <em>Southeast Missourian</em>:<br>
+<img class="hnews-badge" src="../hnews_icon.png" alt="hnews"/>
+<a href="http://www.semissourian.com/story/1620555.html">http://www.semissourian.com/story/1620555.html</a>
+</li>
+
+<li>
+From the <em>Quad-City Times</em>:<br/>
+<img class="hnews-badge" src="../hnews_icon.png" alt="hnews"/>
+<a href="http://qctimes.com/news/local/government-and-politics/elections/article_7bad27da-7425-11df-8955-001cc4c03286.html">http://qctimes.com/news/local/government-and-politics/elections/article_7bad27da-7425-11df-8955-001cc4c03286.html</a>
+</li>
+
+<!--
+<li>
+From <em>openDemocracy.net</em>:<br/>
+<img class="hnews-badge" src="../hnews_icon.png" alt="hnews"/>
+<a href="http://www.opendemocracy.net/thomas-keenan-eyal-weizman/israel-third-strategic-threat">http://www.opendemocracy.net/thomas-keenan-eyal-weizman/israel-third-strategic-threat</a>
+</a>
+</li>
+-->
+
+
+</body>
+</html>
+
