@@ -40,22 +40,22 @@ div.hnews-popup {
     display: block;
     color: #FFFFFF;
     margin: 0px;
-/*    height: 20px; */
     font-size: 16px;
     font-weight: bold;
-/*    line-height: 20px; */
     padding: 3px;
 
     background: #025ebd url(hnews_popup_bg.gif) repeat-y left top;
-
-
 }
 
-
+/* styling for the popup contents (a table by default).
+  column one is name ("Author", "Title" etc...)
+  column two is value/description
+*/
 .hnews-popup .hnews-popup-name {
     vertical-align: top;
     padding: 0.2em;
     font-weight: bold;
+    width: 10em;
 }
 
 .hnews-popup .hnews-popup-value {
@@ -68,6 +68,7 @@ div.hnews-popup {
     border: none;
 }
 
+/* zebra striping */
 .hnews-popup tr:nth-child(even) {background: #ddf}
 .hnews-popup tr:nth-child(odd) {background: #fff}
 

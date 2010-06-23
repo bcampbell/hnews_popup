@@ -30,13 +30,16 @@
         }, options);
 
         $(this).each(function() {
-            var targ = encodeURIComponent( options.url );
-            var fullurl = "http://itchanged.org/parse?url=" + targ + "&callback=?";
             var trigger = $(this);
             trigger.addClass( 'hnews-popup-trigger' );
-            $.getJSON( fullurl, function( data ) {
+
+
+            if( 1 ) {
+              // parse now, using kaply parser
+              var hnews = Microformats.get( 'hNews',document.documentElement);
+              console.dir( hnews );
                 html = options.head_fn();
-                html += generate_popup_body( data[0] );
+                html += generate_popup_body_kaply( hnews );
                 html += options.foot_fn();
 
                 var div = $(html);
@@ -48,7 +51,28 @@
                         div.offset( trigger.offset() );
                     }
                 } );
-            } );
+
+            } else {
+              // call itchanged api to parse
+              var targ = encodeURIComponent( options.url );
+              var fullurl = "http://itchanged.org/parse?url=" + targ + "&callback=?";
+              $.getJSON( fullurl, function( data ) {
+                html = options.head_fn();
+                html += generate_popup_body_itchanged( data[0] );
+                html += options.foot_fn();
+
+                var div = $(html);
+                trigger.after( div );
+                div.mouseleave( function() { div.hide(); } );
+                trigger.mouseenter( function() {
+                    if( div.is(':hidden') ) {
+                        div.show();
+                        div.offset( trigger.offset() );
+                    }
+                } );
+              } );
+            }
+
         });
 
 /*
@@ -88,25 +112,89 @@ hAtom fields:
             return d;
         }
 
-        function generate_popup_body( art ) {
+
+        // format output from kaply parser
+        function generate_popup_body_kaply( art ) {
             var row = options.row_fn;
             out = '';
+            art = art[0];
 
+            console.log( art['entry-title'] )
 
             out += row( "Title", art['entry-title'] );
+
+
+
+            if( art.author ) {
+                for( var i=0; i<art.author.length; ++i ) {
+                    out += row( "Author", fmt_hcard( art.author[i]) );
+                }
+            }
 
             var tmp=[];
             for( var i=0; i<art['author'].length; ++i ) {
                 tmp.push( fmt_hcard(art['author'][i]) );
                 //console.log( tmp );
             }
+            if( art.published ) {
+                out += row( "Published", fmt_date( art.published ) );
+            }
+            if( art.updated ) {
+                out += row( "Updated", fmt_date( art.updated ) );
+            }
+
+            if( art['source-org'] ) {
+                out += row( "Source Org", fmt_hcard( art['source-org'] ) );
+            }
+
+            if( art.dateline ) {
+                out += row( 'Dateline', art.dateline );
+            }
+
+            if( art.principles ) {
+                var icon = '<img src="http://labs.ap.org/principles-book-blue.png" alt="principles"  style="border: none; padding: 0px;" />';
+                var txt = art.principles.text; 
+                var link = art.principles.link; 
+                if( !txt ) {
+                    txt = link;
+                }
+                var snippet = '<a href="'+link+'">'+txt+'</a>';
+                out += row( "Principles " + icon, snippet );
+            }
+
+            /* NOTE: item-license _should_ be an array... eg for dual-licencing */
+            if( art['item-license'] ) { 
+                for( var i=0; i<art['item-license'].length; ++i ) {
+                    var el = art['item-license'][i];
+                    var snippet = '<a href="'+el.link+'">'+(el.text ? el.text:el.link)+'</a>';
+                    out += row( "License", snippet );
+                }
+            }
+            return out;
+        }
+
+
+        // format results from ITCHANGED parser
+        function generate_popup_body_itchanged( art ) {
+            var row = options.row_fn;
+            out = '';
+
+
+            out += row( "Title", art['entry-title'] );
+
 
             /* NOTE: item-license _should_ be an array... eg for dual-licencing */
             if( art['item-license'] ) {
                 out += row( "License", fmt_link( art['item-license'] ) );
             }
 
+            var tmp=[];
+            for( var i=0; i<art['author'].length; ++i ) {
+                tmp.push( fmt_hcard(art['author'][i]) );
+                //console.log( tmp );
+            }
             out += row( "Author", tmp.join(', ') );
+
             if( art.published ) {
                 out += row( "Published", fmt_date( art.published ) );
             }
@@ -122,6 +210,8 @@ hAtom fields:
 
             return out;
         }
+
+
 
 
     }
