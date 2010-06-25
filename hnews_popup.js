@@ -1,59 +1,60 @@
-
+/*
+ * popup widget to display hNews information on a page
+ *
+ */
 
 (function($) {
     $.fn.hnews_popup = function(options) {
         options = $.extend({
-            url: window.location.href,
             head_fn: function() {
                 var html = '<div class="hnews-popup-container">\n';
                 html += ' <div class="hnews-popup">\n';
                 html += '<h3 class="hnews-popup-heading">hNews details</h3>\n';
-/*                html += "<dl>\n"; */
                 html += "<table>\n";
                 return html;
             },
             foot_fn: function() {
-                /*var html = '</dl>\n'; */
                 var html = '</table>\n';
                 html += '</div>\n';
                 html += ' </div>\n'; 
                 return html;
             },
-/*
-            row_fn: function( label, content ) {
-                return ' <dt class="hnews-popup-name">' + label + '</dt><dd class="hnews-popup-value">' + content + "</dd>\n";
-            }
-*/
             row_fn: function( label, content ) {
                 return ' <tr><td class="hnews-popup-name">' + label + '</td><td class="hnews-popup-value">' + content + "</td></tr>\n";
-            }
+            },
+            parser: 'kaply',        /* use "itchanged.org" to use the itchanged.org API */
+            url: window.location.href  /* itchanged parser can parse hNews from _other_ pages */
         }, options);
 
         $(this).each(function() {
             var trigger = $(this);
             trigger.addClass( 'hnews-popup-trigger' );
 
-
-            if( 1 ) {
+            if( options.parser == 'kaply' ) {
               // parse now, using kaply parser
               var hnews = Microformats.get( 'hNews',document.documentElement);
-              console.dir( hnews );
-                html = options.head_fn();
-                html += generate_popup_body_kaply( hnews );
-                html += options.foot_fn();
+              //console.dir( hnews );
+              html = options.head_fn();
+              html += generate_popup_body_kaply( hnews );
+              html += options.foot_fn();
 
-                var div = $(html);
-                trigger.after( div );
-                div.mouseleave( function() { div.hide(); } );
-                trigger.mouseenter( function() {
-                    if( div.is(':hidden') ) {
-                        div.show();
-                        div.offset( trigger.offset() );
-                    }
-                } );
-
-            } else {
+              var div = $(html);
+              trigger.after( div );
+              div.mouseleave( function() { div.hide(); } );
+              trigger.mouseenter( function() {
+                  if( div.is(':hidden') ) {
+                      div.show();
+                      div.offset( trigger.offset() );
+                  }
+              } );
+            } else if( options.parser == 'itchanged.org' ) {
               // call itchanged api to parse
+              // TODO: we should fill the popup now, with just a placeholder
+              // "loading..." spinner in the body.
+              // Then, when the ajax call comes back with the data, format it
+              // and insert it into the popup.
+
+              // do a jsonp call to the itchanged.org api
               var targ = encodeURIComponent( options.url );
               var fullurl = "http://itchanged.org/parse?url=" + targ + "&callback=?";
               $.getJSON( fullurl, function( data ) {
@@ -74,25 +75,6 @@
             }
 
         });
-
-/*
-hNews-specific fields:
-    source-org
-    dateline
-    geo
-*    item-license
-*    principles
-
-hAtom fields:    
-*    entry-title. required. text.
--    entry-content. optional (see field description). text. [*]
--    entry-summary. optional. text.
-*    updated. required using datetime-design-pattern. [*]
-*    published. optional using datetime-design-pattern.
-*    author. required using hCard. [*]
-    bookmark (permalink). optional, using rel-bookmark.
-    tags
-*/
 
         function fmt_hcard( hcard ) {
             if( hcard.url ) {
@@ -119,7 +101,7 @@ hAtom fields:
             out = '';
             art = art[0];
 
-            console.log( art['entry-title'] )
+            //console.log( art['entry-title'] )
 
             out += row( "Title", art['entry-title'] );
 
