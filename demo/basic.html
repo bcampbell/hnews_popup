@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <title>Bare-bones hNews popup example</title>
+    <link rel="stylesheet" type="text/css" href="../hnews_popup.css" />
+    <script type="text/javascript" src="../jquery-1.4.2.js" ></script>
+    <script type="text/javascript" src="../hnews_popup.js" ></script>
+    <script type="application/javascript;version=1.7" src="../Microformats.js" ></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('#hnews-badge').hnews_popup();
+      });
+    </script>
+  </head>
+  <body>
+
+    <div class="hnews hentry">
+      <h2 class="entry-title">Headline Headhghg</h2>
+      by <span class="author vcard"><span class="fn">Fred Bloggs</span></span>
+      for <span class="source-org vcard"><span class="org fn">The Daily Example</span></span>
+      <br/>
+      Published: <abbr class="published" title="2010-01-25T11:44:00Z">25/1/2010 11:44am</abbr>
+      <br/>
+      Last updated: <abbr class="updated" title="2010-02-13T13:25:00Z">13/2/2010 1:25pm</abbr>
+      <br/>
+      dateline: <span class="dateline">TestTown</span>
+      <hr/>
+      <div class="entry-content">
+        <p>Very interesting text goes here.</p>
+        <p>blah blah blah blah blah blah</p>
+        <p>blah blah blah blah blah blah</p>
+        <p>blah blah blah blah blah blah</p>
+        <p>blah blah blah blah blah blah</p>
+      </div>
+      <hr/>
+      This article:
+      <ul>
+        <li>
+          <!-- here's where we'll attach our popup widget -->
+          uses hNews <img id="hnews-badge" alt="this article has hNews" src="../hnews_icon.png" style="border:none; padding: 0px;"/>
+        <li>
+        <li>
+          is licensed under the
+            <a rel="item-license" href="http://creativecommons.org/licenses/by/3.0">
+              Creative Commons attribution 3.0 license
+            </a>
+        </li>
+        <li>
+          adheres to the 
+          <a rel="principles" href="http://www.pcc.org.uk/cop/practice.html">PCC code of practice</a>
+        </li>
+      </ul>
+    </div>  <!-- end of hnews article -->
+  </body>
+</html>
+

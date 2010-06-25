@@ -1,6 +1,14 @@
 /*
- * popup widget to display hNews information on a page
+ * jquery popup widget to display hNews information on a page
  *
+ * Written by Ben Campbell
+ * Copyright 2010, the Media Standards Trust
+ *
+ * Released under the GPL (but we'd probably allow any
+ * other open-source license too - just ask us!)
+ *
+ * Source code at:
+ * http://github.com/bcampbell/hnews_popup
  */
 
 (function($) {
