@@ -3,16 +3,6 @@ var EXPORTED_SYMBOLS = ["Microformats", "adr", "tag", "hCard", "hCalendar", "geo
 var Microformats = {
   /* When a microformat is added, the name is placed in this list */
   list: [],
-  /* Custom iterator so that microformats can be enumerated as */
-  /* for (i in Microformats) */
-
-/*
-  __iterator__: function () {
-    for (let i=0; i < this.list.length; i++) {
-      yield this.list[i];
-    }
-  },
-*/
   /**
    * Retrieves microformats objects of the given type from a document
    * 
@@ -86,6 +76,9 @@ var Microformats = {
     
 
     function isVisible(node, checkChildren) {
+      // BENC - hack
+      return true;
+
       if (node.getBoundingClientRect) {
         var box = node.getBoundingClientRect();
         /* Firefox 3.1 defined box.width/height */
@@ -797,7 +790,10 @@ var Microformats = {
       }
 
       for (var i in Microformats[microformat].properties) {
-        object.__defineGetter__(i, Microformats.parser.getMicroformatPropertyGenerator(node, microformat, i, object));
+          // BenC - set the actual results now rather than deferring using a getter fn.
+          //   not sure if there are going to be any side-effects here or not...
+          object[i] = Microformats.parser.getMicroformatPropertyGenerator(node, microformat, i, object)();
+//        object.__defineGetter__(i, Microformats.parser.getMicroformatPropertyGenerator(node, microformat, i, object));
       }
       
       /* The node in the object should be the original node */
@@ -1319,7 +1315,8 @@ var Microformats = {
     return returnElements;
   },
   matchClass: function matchClass(node, className) {
-    var classValue = node.getAttribute("class");
+    //var classValue = node.getAttribute("class");
+    var classValue = node.className;
     return (classValue && classValue.match("(^|\\s)" + className + "(\\s|$)"));
   }
 };
