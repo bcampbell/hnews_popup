@@ -22,25 +22,12 @@ popup which summarises the hNews data present in the article).
 Basic usage
 -----------
 
-Inside  your <head> section, in additon to jquery, you need to include
-"Microformats.js" and "hnews_popup.js". You'll probably also want to
-include the default "hnews_popup.css" file (or provide your own
-styling - covered later). eg:
-
-  <script type="text/javascript" src="jquery-1.4.2.js" ></script>
-  <script type="text/javascript" src="hnews_popup.js" ></script>
-  <script type="application/javascript;version=1.7" src="Microformats.js" ></script>
-  <link rel="stylesheet" type="text/css" href="hnews_popup.css" />
-
-Note: "Microformats.js" requires feature which were introduced in javascript
-1.7. Some browsers (eg firefox) only enable these features if you ask for
-them, it, hence the ";version=1.7" in the type attribute.
-
+TODO: how to include the .js / .css file(s)
 
 To attach the popup behaviour to an element in the page:
    $('#someelementid').hnews_popup();
 
-(where '#someelementid' is the id of the element you want to attach the popup
+where '#someelementid' is the id of the element you want to attach the popup
 behaviour to.
 
 
@@ -81,15 +68,6 @@ row_fn
   a human-readable label of the hNews field to display, and 'content'
   is the value of the display. Both might be little html snippets.
 
-parser
-  Determines which parser to use. must be  either "kaply" or
-  "itchanged.org". See "Notes" below for more information.
-
-url
-  For the itchanged parser only, this determines the url of the page
-  to parse. By default it will be the current page, but this can be 
-  used to build popups which display hNews data on _other_ pages.
-
 
 Styling
 -------
@@ -104,107 +82,17 @@ If you want to customise the look and feel, probably the best thing is
 to examine the default versions of the options in hnews_popup.js and
 the styles in hnews_popup.css, then build your own replacements.
 
-Notes
------
-
-hnews_popup has two hNews parsers available to it. One is to use
-
-  1. Microformats.js - this the parser written by Mike Kaply for the
-     Operator Firefox plugin. I think this is now the official
-     microformat parser incorporated into Firefox.
-     The version shipped with hnews_popup is currently modified to
-     add hNews support, but hopefully the changes can be incorporated
-     into the "official" one some time...
-
-  2. Using itchanged.org. This site (also developed by the Media
-     Standards Trust) has an API which will parse a given URL for
-     hNews markup and return the results as json.
-     One benefit is that the existance of your hNews article will be
-     recorded as such by itchanged.org and potentially advertised to
-     a larger audience. Also, itchanged.org could potentially return
-     extra information about the article from other sources (for
-     example if the author(s) have pages on journalisted.com, links
-     could be displayed in the popup)
-     The downside to using itchanged.org is that the plugin uses the
-     "jsonp" technique (http://en.wikipedia.org/wiki/JSON#JSONP), which
-     could be considered a security concern.
-
 
 Issues
 ------
 
-- the itchanged.org parser still needs a little work
-- Should hnews_popup.js contain it's own copy of Microformats.js?
+- should pack all js into one minified file
 - Should the plugin file have a jquery prefix? eg "jquery.hnews_popup.js"
-- Is the javascript1.7 requirement a problem? We could probably alter
-  Microformats.js to run on 1.6, but it seems a shame to diverge from the
-  one in Operator and Firefox...
 - is the reliance on jquery an issue? Do we need a non-jquery version?
-- TODO: when using the itchanged.org parser, the popup should display
-  a placeholder "loading" spinner until the ajax call returns with the
-  parsed data.
 
 
 Full example
 ------------
 
-A basic example of an hNews-marked-up page using hnews_popup:
-
-        <html>
-          <head>
-            <title>Bare-bones hNews popup example</title>
-            <link rel="stylesheet" type="text/css" href="../hnews_popup.css" />
-            <script type="text/javascript" src="../jquery-1.4.2.js" ></script>
-            <script type="text/javascript" src="../hnews_popup.js" ></script>
-            <script type="application/javascript;version=1.7" src="../Microformats.js" ></script>
-            <script type="text/javascript">
-              $(document).ready(function() {
-                $('#hnews-badge').hnews_popup();
-              });
-            </script>
-          </head>
-          <body>
-
-            <div class="hnews hentry">
-              <h2 class="entry-title">Headline Headhghg</h2>
-              by <span class="author vcard"><span class="fn">Fred Bloggs</span></span>
-              for <span class="source-org vcard"><span class="org fn">The Daily Example</span></span>
-              <br/>
-              Published: <abbr class="published" title="2010-01-25T11:44:00Z">25/1/2010 11:44am</abbr>
-              <br/>
-              Last updated: <abbr class="updated" title="2010-02-13T13:25:00Z">13/2/2010 1:25pm</abbr>
-              <br/>
-              dateline: <span class="dateline">TestTown</span>
-              <hr/>
-              <div class="entry-content">
-                <p>Very interesting text goes here.</p>
-                <p>blah blah blah blah blah blah</p>
-                <p>blah blah blah blah blah blah</p>
-                <p>blah blah blah blah blah blah</p>
-                <p>blah blah blah blah blah blah</p>
-              </div>
-              <hr/>
-              This article:
-              <ul>
-                <li>
-                  <!-- here's where we'll attach our popup widget -->
-                  uses hNews <img id="hnews-badge" alt="this article has hNews" src="../hnews_icon.png" style="border:none; padding: 0px;"/>
-                <li>
-                <li>
-                  is licensed under the
-                    <a rel="item-license" href="http://creativecommons.org/licenses/by/3.0">
-                      Creative Commons attribution 3.0 license
-                    </a>
-                </li>
-                <li>
-                  adheres to the 
-                  <a rel="principles" href="http://www.pcc.org.uk/cop/practice.html">PCC code of practice</a>
-                </li>
-              </ul>
-            </div>  <!-- end of hnews article -->
-          </body>
-        </html>
-
-
-
+see demo/basic.html
 

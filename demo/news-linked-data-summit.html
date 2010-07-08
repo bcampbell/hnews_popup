@@ -1,17 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html dir="ltr"><head>
 
-<!-- hNews popup stuff -->
-<script type="text/javascript" src="../jquery-1.4.2.js" ></script>
-<script type="text/javascript" src="../hnews_popup.js" ></script>
-<script type="text/javascript" src="../Microformats.js" ></script>
-<script type="text/javascript">
-$(document).ready(function() {
-    $('#hnews-badge').hnews_popup();
-});
-</script>
-
-
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 <script type="text/javascript">(function() { var a=window;function c(b){this.t={};this.tick=function(d,i,e){e=e?e:(new Date).getTime();this.t[d]=[e,i]};this.tick("start",null,b)}var f=new c;a.jstiming={Timer:c,load:f};try{var g=null;if(a.chrome&&a.chrome.csi)g=Math.floor(a.chrome.csi().pageT);if(g==null)if(a.gtbExternal)g=a.gtbExternal.pageT();if(g==null)if(a.external)g=a.external.pageT;if(g)a.jstiming.pt=g}catch(h){};a.tickAboveFold=function(b){b=b;var d=0;if(b.offsetParent){do d+=b.offsetTop;while(b=b.offsetParent)}b=d;b<=750&&a.jstiming.load.tick("aft")};var j=false;function k(){if(!j){j=true;a.jstiming.load.tick("firstScrollTime")}}a.addEventListener?a.addEventListener("scroll",k,false):a.attachEvent("onscroll",k);
  })();</script>
@@ -370,7 +359,20 @@ if (window.jstiming) window.jstiming.load.tick('headEnd');
 
 
 
+<!-- hNews popup stuff -->
 <link rel="stylesheet" type="text/css" href="../hnews_popup.css" />
+    <script type="text/javascript" src="../jquery-1.4.2.js" ></script>
+    <script type="text/javascript" src="../microformats.js" ></script>
+    <script type="text/javascript" src="../hcard.js" ></script>
+    <script type="text/javascript" src="../hnews.js" ></script>
+    <script type="text/javascript" src="../hnews_popup.js" ></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+
+        $('#hnews-badge').hnews_popup();
+      });
+    </script>
+
 </head><body>
 <div class="navbar section" id="navbar"><div class="widget Navbar" id="Navbar1"><script type="text/javascript">
     function setAttributeOnload(object, attribute, val) {

@@ -11,6 +11,9 @@
  * http://github.com/bcampbell/hnews_popup
  */
 
+// TODO: support multiple articles per page
+
+
 (function($) {
     $.fn.hnews_popup = function(options) {
         options = $.extend({
@@ -30,7 +33,7 @@
             row_fn: function( label, content ) {
                 return ' <tr><td class="hnews-popup-name">' + label + '</td><td class="hnews-popup-value">' + content + "</td></tr>\n";
             },
-            parser: 'kaply',        /* use "itchanged.org" to use the itchanged.org API */
+            parser: 'sumo',        /* use "itchanged.org" to use the itchanged.org API */
             url: window.location.href  /* itchanged parser can parse hNews from _other_ pages */
         }, options);
 
@@ -38,12 +41,13 @@
             var trigger = $(this);
             trigger.addClass( 'hnews-popup-trigger' );
 
-            if( options.parser == 'kaply' ) {
-              // parse now, using kaply parser
-              var hnews = Microformats.get( 'hNews',document.documentElement);
+            if( options.parser == 'sumo' ) {
+              // parse now, using sumo parser
+//              var hnews = Microformats.get( 'hNews',document.documentElement);
+              uf = HNews.discover();
               //console.dir( hnews );
               html = options.head_fn();
-              html += generate_popup_body_kaply( hnews );
+              html += generate_popup_body_sumo( uf[0] );
               html += options.foot_fn();
 
               var div = $(html);
@@ -97,113 +101,68 @@
             return '<a href="' + link.href + '">' + link.text + '</a>';
         }
 
-        /* TODO: datetime pattern - do nice formatting here */
+        /* TODO: do nice formatting here */
         function fmt_date( d ) {
             return d;
         }
 
+        function fmt_url(url) {
+            return '<a href="' + url + '">' + url + '</a>';
+        }
 
-        // format output from kaply parser
-        function generate_popup_body_kaply( art ) {
-            var row = options.row_fn;
-            out = '';
-            art = art[0];
+        function fmt_geo(geo) {
+            return 'lat: ' + geo.latitude + ' long: ' + geo.longitude +
+                ' (<a href="http://maps.google.com/?ll=' + geo.latitude + ',' + geo.longitude + '">map</a>)';
+        }
+        // format output from sumo parser
+        function generate_popup_body_sumo( art ) {
+          var row = options.row_fn;
+          out = '';
 
-            //console.log( art['entry-title'] )
+        // fields not yet displayed:
+        // entry-content
+        // entry-summary
+        // bookmark
+        // tags
 
-            out += row( "Title", art['entry-title'] );
+          out += row( "Title", art.entryTitle );
+          for( var i=0; i<art.authorList.length; ++i ) {
+              out += row( "Author", fmt_hcard( art.authorList[i]) );
+          }
 
-
-
-            if( art.author ) {
-                for( var i=0; i<art.author.length; ++i ) {
-                    out += row( "Author", fmt_hcard( art.author[i]) );
-                }
-            }
-
-            var tmp=[];
-            for( var i=0; i<art['author'].length; ++i ) {
-                tmp.push( fmt_hcard(art['author'][i]) );
-                //console.log( tmp );
-            }
             if( art.published ) {
                 out += row( "Published", fmt_date( art.published ) );
             }
             if( art.updated ) {
                 out += row( "Updated", fmt_date( art.updated ) );
             }
-
-            if( art['source-org'] ) {
-                out += row( "Source Org", fmt_hcard( art['source-org'] ) );
+            if( art.sourceOrg ) {
+                out += row( "Source organisation", fmt_hcard( art.sourceOrg ) );
             }
 
             if( art.dateline ) {
                 out += row( 'Dateline', art.dateline );
             }
-
-            if( art.principles ) {
-                var icon = '<img src="http://labs.ap.org/principles-book-blue.png" alt="principles"  style="border: none; padding: 0px;" />';
-                var txt = art.principles.text; 
-                var link = art.principles.link; 
-                if( !txt ) {
-                    txt = link;
-                }
-                var snippet = '<a href="'+link+'">'+txt+'</a>';
-                out += row( "Principles " + icon, snippet );
+            if( art.geoList ) {
+              $.each( art.geoList, function(i,geo) {
+                out += row('Geo', fmt_geo(geo) );
+              });
             }
 
-            /* NOTE: item-license _should_ be an array... eg for dual-licencing */
-            if( art['item-license'] ) { 
-                for( var i=0; i<art['item-license'].length; ++i ) {
-                    var el = art['item-license'][i];
-                    var snippet = '<a href="'+el.link+'">'+(el.text ? el.text:el.link)+'</a>';
-                    out += row( "License", snippet );
-                }
-            }
-            return out;
-        }
-
-
-        // format results from ITCHANGED parser
-        function generate_popup_body_itchanged( art ) {
-            var row = options.row_fn;
-            out = '';
-
-
-            out += row( "Title", art['entry-title'] );
-
-
-            /* NOTE: item-license _should_ be an array... eg for dual-licencing */
-            if( art['item-license'] ) {
-                out += row( "License", fmt_link( art['item-license'] ) );
+            if( art.principlesList ) {
+              $.each( art.principlesList, function(i,url) {
+                out += row('Principles', fmt_url(url) );
+              });
             }
 
-            var tmp=[];
-            for( var i=0; i<art['author'].length; ++i ) {
-                tmp.push( fmt_hcard(art['author'][i]) );
-                //console.log( tmp );
-            }
-            out += row( "Author", tmp.join(', ') );
-
-            if( art.published ) {
-                out += row( "Published", fmt_date( art.published ) );
-            }
-            if( art.updated ) {
-                out += row( "Updated", fmt_date( art.updated ) );
-            }
-
-            if( art.principles ) {
-                var icon = '<img src="http://labs.ap.org/principles-book-blue.png" alt="principles"  style="border: none; padding: 0px;" />';
-                var snippet = '<a href="'+art.principles.href+'">'+art.principles.href+'</a>';
-                out += row( "Principles " + icon, snippet );
+            if( art.itemLicenseList ) {
+              $.each( art.itemLicenseList, function(i,url) {
+                out += row('License', fmt_url(url));
+              });
             }
 
             return out;
         }
-
-
-
-
     }
 })(jQuery);
 

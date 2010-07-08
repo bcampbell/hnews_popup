@@ -1,10 +1,14 @@
 <html>
   <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
     <title>Bare-bones hNews popup example</title>
     <link rel="stylesheet" type="text/css" href="../hnews_popup.css" />
     <script type="text/javascript" src="../jquery-1.4.2.js" ></script>
+    <script type="text/javascript" src="../microformats.js" ></script>
+    <script type="text/javascript" src="../hcard.js" ></script>
+    <script type="text/javascript" src="../hnews.js" ></script>
     <script type="text/javascript" src="../hnews_popup.js" ></script>
-    <script type="text/javascript" src="../Microformats.js" ></script>
     <script type="text/javascript">
       $(document).ready(function() {
 
@@ -22,8 +26,15 @@
       Published: <abbr class="published" title="2010-01-25T11:44:00Z">25/1/2010 11:44am</abbr>
       <br/>
       Last updated: <abbr class="updated" title="2010-02-13T13:25:00Z">13/2/2010 1:25pm</abbr>
+
+
+
       <br/>
       dateline: <span class="dateline">TestTown</span>
+      geo:      <span class="geo">
+         <abbr class="latitude" title="37.408183">N 37° 24.491</abbr> 
+         <abbr class="longitude" title="-122.13855">W 122° 08.313</abbr>
+        </span>
       <hr/>
       <div class="entry-content">
         <p>Very interesting text goes here.</p>
