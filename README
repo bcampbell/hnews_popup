@@ -2,10 +2,12 @@ hNews popup widget
 ==================
 
 Written by Ben Campbell at the Media Standards Trust
+June 2010
 
 Source code at:
 http://github.com/bcampbell/hnews_popup
 
+Uses Dan Webb's Sumo microformat parser
 
 Overview
 --------
@@ -18,31 +20,36 @@ The general idea is that you'd have some little "hNews" badge on the page
 (eg a little hNews logo image) and when the user hovers over it a box will
 popup which summarises the hNews data present in the article).
 
-
 Basic usage
 -----------
 
-TODO: how to include the .js / .css file(s)
+By example:
 
-To attach the popup behaviour to an element in the page:
-   $('#someelementid').hnews_popup();
-
-where '#someelementid' is the id of the element you want to attach the popup
-behaviour to.
-
-
-For example, using the standard jquery $.ready() mechanism, your <head> section
-might have something like this:
-
+    <link rel="stylesheet" type="text/css" href="hnews_popup.css" />
+    <script type="text/javascript" src="jquery.hnews-popup-min.js" ></script>
     <script type="text/javascript">
       $(document).ready(function() {
-      $('#hnews-badge').hnews_popup();
+      $('.hnews-icon').hnews_popup();
     });
     </script>
 
-And somewhere else on the article page, you'd have:
+And somewhere in the article, you'd have:
 
-  <img id="hnews-badge" alt="this article has hNews" src="hnews_icon.png"/>
+  <img class="hnews-icon" alt="this article has hNews" src="hnews_icon.png"/>
+
+
+Files
+-----
+
+The plugin (all packed up and minified):
+ jquery.hnews-popup-min.js
+
+An hnews icon
+ hnews_icon.png
+
+Default styling for the popup:
+ hnews-popup.css
+ hnews_popup_bg.gif
 
 
 Options
@@ -56,7 +63,7 @@ The available options are:
 
 head_fn
   a function which returns a string of html to use to generate the
-  heading of the popup box
+  head part of the popup box.
 
 foot_fn
   a function which returns html for the foot of the box
@@ -67,6 +74,10 @@ row_fn
   The function is passed parameters (label,content), where 'label' is
   a human-readable label of the hNews field to display, and 'content'
   is the value of the display. Both might be little html snippets.
+
+fmt_hcard, fmt_link, fmt_date, fmt_geo
+  all are functions to generate html fragments for individual bits of
+  data. The defaults are simple and pretty bland. Override for fanciness.
 
 
 Styling
@@ -86,13 +97,18 @@ the styles in hnews_popup.css, then build your own replacements.
 Issues
 ------
 
-- should pack all js into one minified file
-- Should the plugin file have a jquery prefix? eg "jquery.hnews_popup.js"
+- the default styling could do with a little love...
 - is the reliance on jquery an issue? Do we need a non-jquery version?
+- add itchanged.org support back in - uses an API on itchanged.org to
+  parse the hNews, and implicitly advertise that the story is
+  hNews-enabled.
 
+Examples
+--------
 
-Full example
-------------
+The demo/ directory holds some examples:
+- a couple of very basic mockup articles
+- an example of multiple articles on a single page
+- an example of the popup added to a real blog post
 
-see demo/basic.html
 

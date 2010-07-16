@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <title>Bare-bones hNews popup example</title>
+    <link rel="stylesheet" type="text/css" href="../hnews-popup.css" />
+    <script type="text/javascript" src="../jquery-1.4.2.js" ></script>
+    <script type="text/javascript" src="../jquery.hnews-popup-min.js" ></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('.hnews-label').hnews_popup();
+      });
+    </script>
+  </head>
+  <body>
+
+    <div id="article-1" class="hnews hentry">
+      <h2 class="entry-title">Article Number One</h2>
+      by <span class="author vcard"><span class="fn">Fred Bloggs</span></span>
+      for <span class="source-org vcard"><span class="org fn">The Daily Example</span></span> <br/>
+      Published: <abbr class="published" title="2010-01-25T11:44:00Z">25/1/2010 11:44am</abbr> <br/>
+      Last updated: <abbr class="updated" title="2010-02-13T13:25:00Z">13/2/2010 1:25pm</abbr> <br/>
+      dateline: <span class="dateline">TestTown</span>
+      geo:      <span class="geo">
+         <abbr class="latitude" title="37.408183">N 37° 24.491</abbr> 
+         <abbr class="longitude" title="-122.13855">W 122° 08.313</abbr>
+        </span>
+      <hr/>
+      <div class="entry-content">
+        <p>This is the first article.</p>
+        <p>blah blah blah blah blah blah</p>
+        <p>blah blah blah blah blah blah</p>
+        <p>blah blah blah blah blah blah</p>
+        <p>blah blah blah blah blah blah</p>
+      </div>
+      <hr/>
+      This article uses hNews <img class="hnews-label" alt="this article has hNews" src="../hnews_icon.png" style="border:none; padding: 0px;"/>
+      and adheres to the <a rel="principles" href="http://www.pcc.org.uk/cop/practice.html">PCC code of practice</a>
+    </div>  <!-- end article 1-->
+
+    <div id="article-2" class="hnews hentry">
+      <h2 class="entry-title">Article Number Two</h2>
+      by <span class="author vcard"><span class="fn">Fred Smith</span></span>
+      for <span class="source-org vcard"><span class="org fn">The Daily Example</span></span> <br/>
+      Published: <abbr class="published" title="2010-01-25T11:46:00Z">25/1/2010 11:46am</abbr> <br/>
+      Last updated: <abbr class="updated" title="2010-02-13T13:15:00Z">13/2/2010 1:15pm</abbr> <br/>
+      dateline: <span class="dateline">BoringVille</span>
+      geo:      <span class="geo">
+         <abbr class="latitude" title="37.408183">N 37° 24.491</abbr> 
+         <abbr class="longitude" title="-122.13855">W 122° 08.313</abbr>
+        </span>
+      <hr/>
+      <div class="entry-content">
+        <p>This is the second article on this page.</p>
+        <p>blah blah blah blah blah blah</p>
+        <p>blah blah blah blah blah blah</p>
+        <p>blah blah blah blah blah blah</p>
+        <p>blah blah blah blah blah blah</p>
+      </div>
+      <hr/>
+      This article uses hNews <img class="hnews-label" alt="this article has hNews" src="../hnews_icon.png" style="border:none; padding: 0px;"/>
+      and adheres to the <a rel="principles" href="http://www.pcc.org.uk/cop/practice.html">PCC code of practice</a>
+    </div>  <!-- end article 2-->
+  </body>
+</html>
+

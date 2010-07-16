@@ -14,7 +14,7 @@
 var Geo = Microformat.define( 'geo', { one:['latitude','longitude'] } )
 
 var HNews = Microformat.define('hentry', {
-  one : ['entry-title', 'entry-summary', 'entry-content', 'published', 'updated', {'source-org': HCard} ],
+  one : ['entry-title', 'entry-summary', 'entry-content', 'published', 'updated', {'source-org': HCard}, 'dateline' ],
   many : [ {'author' : HCard}, {'geo':Geo} ],
   rels : [ 'principles', 'item-license', 'tag' ],
   postprocess : function( data,node ) {
