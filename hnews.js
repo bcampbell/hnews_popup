@@ -1,28 +1,11 @@
+// Sumo uF parser for hNews
+// by Ben Campbell (Media Standards Trust)
 //
-
-// done:
-// 
-// source-org
-// principles 
-// item-license
-// entry-title
-// entry-content
-// entry-summary
-// updated
-// published
-// author
-// geo
-//
-// TODO:
-//
-// bookmark - if missing, use nearest-in-parent?
+// bookmark - not yet done. if missing, use nearest-in-parent?
 // dateline - string or hcard
 // source-org - if missing, use nearest-in-parent
-// tags - rel
 //
 // ISSUES:
-// - should relative hrefs be made absolute autmatically?
-//
 // - problems with nested geos.
 // the hnews 'geo' field will pick up 'geo's nested in other uFs, which
 // isn't what we want. This is a more general nested-uF problem with sumo,
@@ -35,9 +18,19 @@ var HNews = Microformat.define('hentry', {
   many : [ {'author' : HCard}, {'geo':Geo} ],
   rels : [ 'principles', 'item-license', 'tag' ],
   postprocess : function( data,node ) {
-    // implied updated
+
+    // if 'updated' not present, defaults to 'published'
     if( data.published && !data.updated ) {
         data.updated=data.published;
+    }
+
+    // extract names of tags from their URLs
+    if( data.tagList ) {
+      for( var i in data.tagList ) {
+        var url = data.tagList[i].href;
+        var m = /[/]([^/]*)[/]?([?].*)?$/.exec( url );
+        data.tagList[i].tag = unescape( m ? m[1] : '' );
+      }
     }
   }
 });

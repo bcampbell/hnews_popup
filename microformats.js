@@ -162,7 +162,7 @@ Microformat = {
           Array.filter( context.getElementsByTagName('a'), function(node) {
             return node.getAttribute('rel') == item;
           }).map( function(node) {
-            return node.getAttribute('href');
+            return t._extractLink(node);
           });
       });
       return data;
@@ -197,6 +197,9 @@ Microformat = {
       }
       
       return this._coerce(this._getText(node));
+    },
+    _extractLink : function( node ) {
+      return { href: node.href, text: this._coerce( this._getText( node ) ) };
     },
     _extractSimple : function(node) {
       switch (node.nodeName.toLowerCase()) {
